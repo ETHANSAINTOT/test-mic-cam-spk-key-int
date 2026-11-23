@@ -62,7 +62,7 @@ export function initMic(card) {
       stream = s;
       const track = s.getAudioTracks()[0];
       track.addEventListener('ended', onTrackEnded);
-      await startMeter(s);
+      startMeter(s);
       showActive(true);
       if (!canRecord) setStatus(el.status, "L'enregistrement n'est pas disponible dans ce navigateur, mais la barre de niveau fonctionne.", 'warn');
       fillSelect(el.select, await listDevices('audioinput'), track.getSettings().deviceId || deviceId, 'Micro');
@@ -101,9 +101,14 @@ export function initMic(card) {
   }
 
   // ---------- Vumètre ----------
-  async function startMeter(s) {
+  // À appeler pendant le clic : Safari ne laisse démarrer un contexte audio que dans un geste utilisateur.
+  function wakeAudio() {
     ctx ??= new AudioContext();
-    if (ctx.state === 'suspended') await ctx.resume();
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+  }
+
+  function startMeter(s) {
+    wakeAudio(); // sans attendre : resume() peut ne jamais aboutir hors d'un geste
     source = ctx.createMediaStreamSource(s);
     analyser = ctx.createAnalyser();
     analyser.fftSize = 1024;
@@ -219,7 +224,10 @@ export function initMic(card) {
   });
 
   // ---------- Événements ----------
-  el.start.addEventListener('click', () => open(el.select.disabled ? '' : el.select.value));
+  el.start.addEventListener('click', () => {
+    wakeAudio();
+    open(el.select.disabled ? '' : el.select.value);
+  });
   el.stop.addEventListener('click', () => {
     stopRecording(true);
     closeStream();
@@ -231,7 +239,10 @@ export function initMic(card) {
   });
   el.select.addEventListener('change', () => {
     discardRecording();
-    if (stream) open(el.select.value);
+    if (stream) {
+      wakeAudio();
+      open(el.select.value);
+    }
   });
   onDeviceChange(refreshList);
   onSinkChange(() => applySink(el.playback));
