@@ -1,0 +1,9 @@
+{
+  "name": "test-de-peripheriques",
+  "private": true,
+  "type": "module",
+  "description": "Site statique pour tester micro, webcam, haut-parleurs, clavier et débit avant une visio.",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  }
+}

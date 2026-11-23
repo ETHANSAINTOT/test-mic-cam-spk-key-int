@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Test de périphériques&nbsp;: micro, webcam, son, clavier et débit</title>
+  <meta name="description" content="Vérifiez en quelques secondes votre micro, votre webcam, vos haut-parleurs, votre clavier et votre connexion avant une visioconférence. Gratuit, sans inscription, rien n'est enregistré.">
+  <meta name="theme-color" content="#f5f6fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1014" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Test de périphériques">
+  <meta property="og:description" content="Micro, webcam, son, clavier et débit&nbsp;: vérifiez votre matériel avant une visio.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#tests">Aller aux tests</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="3" y="6" width="26" height="17" rx="3"/>
+        <path d="M11 27h10M16 23v4"/>
+        <circle cx="16" cy="14.5" r="3.5"/>
+      </svg>
+      <div>
+        <h1>Test de périphériques</h1>
+        <p class="tagline">Vérifiez votre micro, votre webcam, votre son, votre clavier et votre connexion avant une visio. Rien n'est enregistré.</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="site-nav" aria-label="Aller à un test">
+    <div class="container nav-inner">
+      <a href="#micro"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8"/></svg>Micro</a>
+      <a href="#webcam"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>Webcam</a>
+      <a href="#son"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Son</a>
+      <a href="#clavier"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M10 13h.01M14 13h.01M18 13h.01M8 16h8"/></svg>Clavier</a>
+      <a href="#debit"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>Débit</a>
+    </div>
+  </nav>
+
+  <main id="tests" class="container grid">
+
+    <!-- ============ MICRO ============ -->
+    <section class="card" id="micro" aria-labelledby="micro-title">
+      <header class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8"/></svg></span>
+        <div>
+          <h2 id="micro-title">Micro</h2>
+          <p class="card-sub">Parlez&nbsp;: la barre doit réagir à votre voix.</p>
+        </div>
+      </header>
+
+      <div class="field">
+        <label for="mic-select">Micro utilisé</label>
+        <select id="mic-select" data-role="select" disabled>
+          <option>Activez le micro pour voir la liste</option>
+        </select>
+      </div>
+
+      <div class="meter" data-role="meter" role="meter" aria-label="Niveau sonore du micro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="meter-fill" data-role="meter-fill"></div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" data-role="start">Activer le micro</button>
+        <button type="button" class="btn" data-role="record" hidden>
+          <span class="rec-dot" aria-hidden="true"></span><span data-role="record-label">Enregistrer (10 s max)</span>
+        </button>
+        <button type="button" class="btn btn-ghost" data-role="stop" hidden>Couper le micro</button>
+      </div>
+
+      <div class="rec-progress" data-role="rec-box" hidden>
+        <div class="progress"><div class="progress-fill" data-role="rec-fill"></div></div>
+        <span class="rec-time" data-role="rec-time">10 s</span>
+      </div>
+
+      <div class="playback" data-role="playback-box" hidden>
+        <p class="small">Réécoutez-vous&nbsp;:</p>
+        <audio data-role="playback" controls preload="auto"></audio>
+        <p class="hint">Cet enregistrement reste sur votre appareil et sera supprimé dès que vous changez de micro, relancez un enregistrement ou quittez la page.</p>
+      </div>
+
+      <p class="status" data-role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <!-- ============ WEBCAM ============ -->
+    <section class="card card-webcam" id="webcam" aria-labelledby="webcam-title">
+      <header class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg></span>
+        <div>
+          <h2 id="webcam-title">Webcam</h2>
+          <p class="card-sub">Vérifiez l'image, le cadrage et la lumière.</p>
+        </div>
+      </header>
+
+      <div class="field">
+        <label for="cam-select">Caméra utilisée</label>
+        <select id="cam-select" data-role="select" disabled>
+          <option>Activez la webcam pour voir la liste</option>
+        </select>
+      </div>
+
+      <div class="video-box" data-role="video-box">
+        <video data-role="video" autoplay playsinline muted></video>
+        <div class="video-placeholder" data-role="placeholder">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>
+          <span>L'aperçu de votre webcam s'affichera ici</span>
+        </div>
+        <span class="video-info" data-role="info" hidden></span>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" data-role="start">Activer la webcam</button>
+        <button type="button" class="btn btn-ghost" data-role="stop" hidden>Couper la webcam</button>
+        <label class="switch">
+          <input type="checkbox" data-role="mirror" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          Miroir
+        </label>
+      </div>
+
+      <p class="status" data-role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <!-- ============ SON ============ -->
+    <section class="card" id="son" aria-labelledby="son-title">
+      <header class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+        <div>
+          <h2 id="son-title">Casque et haut-parleurs</h2>
+          <p class="card-sub">Le son doit venir du bon côté.</p>
+        </div>
+      </header>
+
+      <div class="field" data-role="select-field" hidden>
+        <label for="spk-select">Sortie audio</label>
+        <select id="spk-select" data-role="select"></select>
+      </div>
+      <p class="small" data-role="default-note" hidden>Sortie audio&nbsp;: <strong>sortie par défaut du système</strong>.</p>
+      <div class="actions actions-tight">
+        <button type="button" class="btn btn-link" data-role="unlock" hidden>Afficher le nom des sorties</button>
+        <button type="button" class="btn btn-link" data-role="pick" hidden>Choisir une sortie</button>
+      </div>
+      <p class="hint" data-role="explain" hidden></p>
+
+      <div class="channels" role="group" aria-label="Jouer un son">
+        <button type="button" class="btn btn-channel" data-channel="left" aria-pressed="false">
+          <span aria-hidden="true">◀</span> Gauche
+        </button>
+        <button type="button" class="btn btn-channel" data-channel="both" aria-pressed="false">
+          Stéréo
+        </button>
+        <button type="button" class="btn btn-channel" data-channel="right" aria-pressed="false">
+          Droite <span aria-hidden="true">▶</span>
+        </button>
+      </div>
+      <p class="badge" data-role="mono" hidden>Sortie mono&nbsp;: les trois boutons diffusent le même son, c'est normal.</p>
+      <p class="hint">Conseil&nbsp;: baissez un peu le volume avant de tester.</p>
+
+      <p class="status" data-role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <!-- ============ CLAVIER ============ -->
+    <section class="card" id="clavier" aria-labelledby="clavier-title">
+      <header class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M10 13h.01M14 13h.01M18 13h.01M8 16h8"/></svg></span>
+        <div>
+          <h2 id="clavier-title">Clavier</h2>
+          <p class="card-sub">Écrivez, copiez, coupez, collez librement.</p>
+        </div>
+      </header>
+
+      <label class="sr-only" for="kbd-input">Zone de test du clavier</label>
+      <textarea id="kbd-input" data-role="input" rows="6" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Tapez ici pour tester votre clavier…"></textarea>
+
+      <div class="kbd-bar">
+        <p class="small">Dernière touche&nbsp;: <kbd data-role="last">–</kbd></p>
+        <p class="small muted"><span data-role="count">0</span> caractère(s)</p>
+        <button type="button" class="btn btn-ghost btn-small" data-role="clear">Effacer</button>
+      </div>
+      <p class="hint">Le texte est effacé quand vous quittez la page.</p>
+    </section>
+
+    <!-- ============ DÉBIT ============ -->
+    <section class="card" id="debit" aria-labelledby="debit-title">
+      <header class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span>
+        <div>
+          <h2 id="debit-title">Débit internet</h2>
+          <p class="card-sub">Votre connexion tiendra-t-elle une visio&nbsp;?</p>
+        </div>
+      </header>
+
+      <div class="speed-top">
+        <button type="button" class="btn-go" data-role="go">Go</button>
+        <p class="phase" data-role="phase" aria-live="polite">Environ 20 secondes.</p>
+      </div>
+
+      <dl class="metrics">
+        <div class="metric" data-metric="ping">
+          <dt>Ping</dt>
+          <dd><span class="metric-value" data-role="ping">–</span> <span class="metric-unit">ms</span></dd>
+          <dd class="metric-extra" data-role="jitter"></dd>
+        </div>
+        <div class="metric" data-metric="down">
+          <dt>Descendant</dt>
+          <dd><span class="metric-value" data-role="down">–</span> <span class="metric-unit">Mb/s</span></dd>
+        </div>
+        <div class="metric" data-metric="up">
+          <dt>Montant</dt>
+          <dd><span class="metric-value" data-role="up">–</span> <span class="metric-unit">Mb/s</span></dd>
+        </div>
+      </dl>
+
+      <div class="score" data-role="score-box" hidden>
+        <p class="score-value"><span data-role="score">0</span><span class="score-max">/10</span></p>
+        <div>
+          <p class="verdict" data-role="verdict"></p>
+          <p class="small" data-role="advice"></p>
+        </div>
+      </div>
+
+      <p class="status" data-role="status" aria-live="polite" hidden></p>
+      <p class="hint">Mesure effectuée avec les serveurs de test de Cloudflare.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Rien n'est enregistré ni envoyé&nbsp;: le micro, la webcam, le son et le clavier sont testés uniquement sur votre appareil. Seul le test de débit échange des données de test (sans contenu personnel) avec les serveurs de Cloudflare.
+      </p>
+      <p class="muted">L'accès au micro et à la webcam n'est demandé qu'au moment où vous cliquez.</p>
+    </div>
+  </footer>
+</body>
+</html>
