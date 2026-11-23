@@ -33,3 +33,26 @@ test('touche non identifiée (clavier virtuel Android) → null', () => {
   assert.equal(formatKey({ key: 'Process' }), null);
   assert.equal(formatKey({}), null);
 });
+
+import { labelFromInput } from '../public/js/keys.js';
+
+test('clavier virtuel : caractère inséré', () => {
+  assert.equal(labelFromInput({ inputType: 'insertText', data: 'é' }), 'É');
+  assert.equal(labelFromInput({ inputType: 'insertText', data: ' ' }), 'Espace');
+});
+
+test('clavier virtuel : mot entier inséré → dernier caractère', () => {
+  assert.equal(labelFromInput({ inputType: 'insertText', data: 'bonjour' }), 'R');
+});
+
+test('clavier virtuel : effacement et retour à la ligne', () => {
+  assert.equal(labelFromInput({ inputType: 'deleteContentBackward', data: null }), 'Retour arrière');
+  assert.equal(labelFromInput({ inputType: 'deleteContentForward', data: null }), 'Suppr');
+  assert.equal(labelFromInput({ inputType: 'insertLineBreak', data: null }), 'Entrée');
+  assert.equal(labelFromInput({ inputType: 'insertParagraph', data: null }), 'Entrée');
+});
+
+test('clavier virtuel : rien d\'identifiable → null', () => {
+  assert.equal(labelFromInput({ inputType: 'insertFromPaste', data: null }), null);
+  assert.equal(labelFromInput({}), null);
+});

@@ -56,3 +56,22 @@ export function formatKey(e, opts = {}) {
 
   return [...parts, main].join(' + ');
 }
+
+const INPUT_TYPES = {
+  deleteContentBackward: 'Retour arrière',
+  deleteContentForward: 'Suppr',
+  insertLineBreak: 'Entrée',
+  insertParagraph: 'Entrée',
+};
+
+/**
+ * Nom de la touche déduit d'un événement `input`, pour les claviers virtuels
+ * dont l'événement `keydown` ne dit rien (`key === "Unidentified"`).
+ * @param {{inputType?: string, data?: string | null}} e
+ * @returns {string | null}
+ */
+export function labelFromInput(e) {
+  if (e?.inputType in INPUT_TYPES) return INPUT_TYPES[e.inputType];
+  if (e?.data) return formatKey({ key: [...e.data].at(-1) });
+  return null;
+}
