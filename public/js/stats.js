@@ -20,3 +20,21 @@ export function mbps(bytes, ms) {
   if (!(ms > 0)) return 0;
   return (bytes * 8) / ms / 1000;
 }
+
+/**
+ * Débit (Mb/s) mesuré à partir de relevés cumulés `{t (ms), total (octets)}`,
+ * en ignorant les `warmupMs` premières millisecondes (montée en charge de la connexion).
+ */
+export function windowMbps(samples, warmupMs) {
+  if (samples.length < 2) return 0;
+  const last = samples[samples.length - 1];
+  let base = samples.find((s) => s.t >= warmupMs);
+  if (!base || base === last) base = samples[0];
+  return mbps(last.total - base.total, last.t - base.t);
+}
+
+/** Ping (médiane) et gigue, sans la première mesure qui inclut l'ouverture de connexion. */
+export function pingStats(samples) {
+  const kept = samples.length > 1 ? samples.slice(1) : samples;
+  return { ping: median(kept), jitter: jitter(kept) };
+}
